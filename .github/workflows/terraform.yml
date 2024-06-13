@@ -21,54 +21,54 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v3
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: us-east-2
 
-      - name: Initialize and Plan Dev
+      - name: Initialize and Plan
         run: |
           terraform init
-          terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
+          terraform plan -out=tfplan -input=false -no-color
           terraform show -no-color tfplan
-        working-directory: dev
+        working-directory: .
 
-      - name: Initialize and Plan Dev-Clint
-        run: |
-          terraform init
-          terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
-          terraform show -no-color tfplan
-        working-directory: dev/clint
+      # - name: Initialize and Plan Dev-Clint
+      #   run: |
+      #     terraform init
+      #     terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
+      #     terraform show -no-color tfplan
+      #   working-directory: dev/clint
 
-      - name: Initialize and Plan Dev-Natasha
-        run: |
-          terraform init
-          terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
-          terraform show -no-color tfplan
-        working-directory: dev/natasha
+      # - name: Initialize and Plan Dev-Natasha
+      #   run: |
+      #     terraform init
+      #     terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
+      #     terraform show -no-color tfplan
+      #   working-directory: dev/natasha
 
-      - name: Initialize and Plan Staging-Integration
-        # if: github.ref == 'refs/heads/master'
-        run: |
-          terraform init
-          terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
-          terraform show -no-color tfplan
-        working-directory: staging/integration
+      # - name: Initialize and Plan Staging-Integration
+      #   # if: github.ref == 'refs/heads/master'
+      #   run: |
+      #     terraform init
+      #     terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
+      #     terraform show -no-color tfplan
+      #   working-directory: staging/integration
 
-      - name: Initialize and Plan Staging-Performance
-        # if: github.ref == 'refs/heads/master'
-        run: |
-          terraform init
-          terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
-          terraform show -no-color tfplan
-        working-directory: staging/performance
+      # - name: Initialize and Plan Staging-Performance
+      #   # if: github.ref == 'refs/heads/master'
+      #   run: |
+      #     terraform init
+      #     terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
+      #     terraform show -no-color tfplan
+      #   working-directory: staging/performance
 
-      - name: Initialize and Plan Prod
-        # if: github.ref == 'refs/heads/master'
-        run: |
-          terraform init
-          terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
-          terraform show -no-color tfplan
-        working-directory: prod
+      # - name: Initialize and Plan Prod
+      #   # if: github.ref == 'refs/heads/master'
+      #   run: |
+      #     terraform init
+      #     terraform plan -var-file="sample-terraform.tfvars" -out=tfplan -input=false -no-color
+      #     terraform show -no-color tfplan
+      #   working-directory: prod
