@@ -18,6 +18,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Run Checkov code scanning
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          quiet: false
+          output_format: cli
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
