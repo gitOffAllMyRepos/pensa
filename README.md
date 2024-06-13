@@ -1,66 +1,32 @@
-# Terraform Infrastructure Provisioning
+# Terraform Configuration for Dynamic Resource Creation
 
-This repository contains Terraform configurations for provisioning infrastructure across multiple environments: development, staging, and production. It is structured to manage resources modularly, allowing for reusability and maintainability.
+This Terraform configuration dynamically creates and manages instances, databases, Kubernetes containers, and load balancers across different environments and sub-environments. It uses maps instead of lists to define resource attributes, ensuring flexibility and scalability.
 
-## Project Structure
+## Overview
 
-- **`/dev`**: Contains Terraform configurations specific to the development environment. subdivided into clint and natasha sub-environments
-- **`/staging`**: Includes configurations for staging environments, subdivided into integration and performance sub-environments.
-- **`/prod`**: Holds the Terraform setup for the production environment.
-- **`/modules`**: Custom Terraform modules used across different environments. Includes modules for database instances, compute instances, and Kubernetes containers.
-- **`.github/workflows`**: CI/CD pipeline definitions using GitHub Actions.
-- **`.gitignore`**: Specifies intentionally untracked files to ignore.
+The configuration is designed to handle multiple environments (development, staging, production) and their sub-environments. Each environment can have its own set of instances, databases, Kubernetes containers, and load balancers. The resources are dynamically named and managed using Terraform modules.
 
-### Modules
+## Directory Structure
 
-- **Database Module**: Manages database instances with customizable parameters like size and type.
-- **Instance Module**: Configures compute instances with options for size and count.
-- **Kubernetes Cluster Module**: Provisions Kubernetes containers, allowing configuration of memory and other parameters.
+- **`main.tf`**: The main Terraform configuration file.
+- **`locals.tf`**: Defines local variables and dynamic naming logic.
+- **`outputs.tf`**: Outputs the resource names.
+- **`modules/instance`**: Module for managing instances.
+- **`modules/db`**: Module for managing databases.
+- **`modules/k8s_cluster`**: Module for managing Kubernetes containers.
+- **`modules/load_balancer`**: Module for managing load balancers.
 
-## Setup Instructions
+## Adding a New Environment
 
-### Prerequisites
+To add a new environment, simply update the locals.tf file with the new environment's configurations.
 
-- Terraform installed
-- Access to an AWS account with permissions to manage S3 resource for backend.
-- AWS CLI configured with user credentials.
+## Adding a New Resource Type
 
-### Initializing the Project
+To add a new resource type, such as a load balancer, update the locals.tf file and create a corresponding module directory with a main.tf file. Then, update the main.tf file to call the new module.
 
-1. **Clone the repository:**
+For example, to add a load balancer:
 
-    ```bash
-    git clone https://github.com/yourusername/your-repository.git
-    cd your-repository
-    ```
-
-2. **Initialize Terraform:**
-
-    Navigate to any of the environment directories (e.g., `dev`) and run:
-
-    ```bash
-    terraform init
-    ```
-
-3. **Create a `terraform.tfvars` file** (or use existing `sample-terraform.tfvars`) in the respective environment directory with necessary variable definitions.
-
-### Deploying Infrastructure
-
-1. **Plan Terraform Deployment:**
-
-    ```bash
-    terraform plan -var-file="sample-terraform.tfvars" -out=tfplan
-    ```
-
-
-## Workflow Details
-
-GitHub Actions is configured to automate the Terraform workflows:
-
-- **Terraform Plan**: Automatically runs on  any push to any branch.
-
-## Contributing
-
-To contribute to this project, please fork the repository, make your changes, and submit a pull request to the `dev` branch. Ensure to update the `sample-terraform.tfvars` with example values that do not expose sensitive information.
-
-
+Update locals.tf with load balancers configuration.
+Create modules/load_balancer/main.tf to define the load balancer resource.
+Update main.tf to call the load balancer module.
+By following this structure, you can easily manage and scale your infrastructure with Terraform.
