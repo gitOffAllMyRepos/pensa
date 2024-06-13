@@ -1,3 +1,3 @@
 output "db_name" {
-  value = terraform_data.db[*].input.name
+  value = terraform_data.database.input.name
 }

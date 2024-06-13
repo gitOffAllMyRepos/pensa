@@ -1,8 +1,8 @@
-resource "terraform_data" "k8s_container" {
+resource "terraform_data" "load_balancer" {
   input = {
     name = var.name
     size = var.size
-    mem  = var.mem
+    type = var.type
   }
 
   lifecycle {
